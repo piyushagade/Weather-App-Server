@@ -1,5 +1,5 @@
 var Client = require('node-rest-client').Client;
-var config = require('../config/constants');
+var config = require('../../config/constants');
 var NodeCache = require( "node-cache" );
 var cache = new NodeCache();
 
@@ -20,14 +20,11 @@ exports.getLocation = function getLocation(name, callback){
         client.methods.jsonMethod(function (data, response) {
             lat = data.results[0].geometry.location.lat;
             lng = data.results[0].geometry.location.lng;
-            if(cache.set(name, {lat: lat, lng: lng})){
+            if(cache.set(name, {lat: lat, lng: lng}), config.cache.location.ttl){
                 callback({lat: lat, lng: lng, cache: false});
             }
         });
     }
-
-
-
 }
 
 // Get suggestions / coordinates for a location name

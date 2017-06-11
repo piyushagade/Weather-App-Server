@@ -1,5 +1,4 @@
-var db = require('../db');
-
+var db = require('../../config/db');
 
 var citiesSchema = new db.Schema({
         name: { type: String, required: true },

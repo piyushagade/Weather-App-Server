@@ -13,6 +13,10 @@ module.exports = {
         'weather' : {
             // 10 minutes
             'ttl' : 10 * 60
+        },
+        'location' : {
+            // Indefinite
+            'ttl' : 0
         }
     }
 

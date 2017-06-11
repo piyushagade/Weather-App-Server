@@ -1,5 +1,5 @@
 var Client = require('node-rest-client').Client;
-var config = require('../config/constants');
+var config = require('../../config/constants');
 var NodeCache = require( "node-cache" );
 var cache = new NodeCache();
 
