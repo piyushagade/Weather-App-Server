@@ -13,11 +13,10 @@ var index = require('./routes/index');
 var favourites = require('./routes/favourites');
 var weather = require('./routes/weather');
 var location = require('./routes/location');
-var search = require('./routes/search');
 
 // Manage CORS
 app.use(function(req, res, next) {
-    var allowedOrigins = ['http://localhost:4200', 'http://localhost:3000', 'https://skycast-pa-aws.firebaseapp.com', 'http://ec2-54-202-210-202.us-west-2.compute.amazonaws.com:9999'];
+    var allowedOrigins = ['http://localhost:4200', 'http://localhost:3000', 'https://skycast-pa-aws.firebaseapp.com', 'http://ec2-34-210-238-35.us-west-2.compute.amazonaws.com:9999'];
     var origin = req.headers.origin;
     if(allowedOrigins.indexOf(origin) > -1){
         res.setHeader('Access-Control-Allow-Origin', origin);
@@ -28,13 +27,11 @@ app.use(function(req, res, next) {
     return next();
 });
 
-
 // Handle routes
 app.use('/', index);
 app.use('/favourites', favourites);
 app.use('/weather', weather);
 app.use('/locate', location);
-app.use('/search', search);
 
 
 // View engine

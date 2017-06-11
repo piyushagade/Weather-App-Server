@@ -1,47 +1,27 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../db');
-
-
-var citiesSchema = new db.Schema({
-        name: { type: String, required: true }
-    },
-    {
-        collection: 'cities'
-    });
-
-var citiesModel = mongoose.model('cities', citiesSchema);
+var favourites = require('../models/favourites.js');
 
 
 /* --------------------------------------------------------------------------------------------------------
                         Get, add, and remove favourite cities
  -------------------------------------------------------------------------------------------------------- */
 
+router.get('/:user', function(req, res, next) {
+    favourites.getFavourites(req.params.user, res);
+});
+
 router.get('/', function(req, res, next) {
-    citiesModel.find()
-        .then(function(doc){
-            res.json(doc);
-        });
+    favourites.getFavouritesAll(res);
 });
 
 
-router.get('/add/:name', function(req, res, next) {
-    var item = {
-        name: req.params.name,
-    };
-
-    var data = new citiesModel(item);
-    data.save().then()
-    {
-        res.end();
-    }
-
+router.get('/add/:user/:name', function(req, res, next) {
+    favourites.addFavourite(req.params.user, req.params.name, res);
 });
 
 router.get('/remove/:id', function(req, res, next) {
-    citiesModel.findByIdAndRemove(req.params.id).exec();
-
-    res.end();
+    favourites.removeFavourite(req.params.id, res);
 });
 
 
