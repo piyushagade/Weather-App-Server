@@ -11,23 +11,23 @@ var citiesSchema = new db.Schema({
 var citiesModel = mongoose.model('cities', citiesSchema);
 
 // Get favourites of a particular user
-exports.getFavourites = function (user, res) {
+exports.getFavourites = function (user, res, callback) {
     citiesModel.find( { user: user } )
         .then(function(doc){
-            res.json(doc);
+            callback(doc);
         });
-}
+};
 
 // Get favourites of all users
-exports.getFavouritesAll = function (res) {
+exports.getFavouritesAll = function (res, callback) {
     citiesModel.find()
         .then(function(doc){
-            res.json(doc);
+            callback(doc);
         });
-}
+};
 
 // Add a favourite location
-exports.addFavourite = function (user, name, res) {
+exports.addFavourite = function (user, name, res, callback) {
     var item = {
         name: name,
         user: user,
@@ -36,16 +36,16 @@ exports.addFavourite = function (user, name, res) {
     var data = new citiesModel(item);
     data.save().then()
     {
-        res.json({status: "success"});
+        callback({status: "success"});
     }
-}
+};
 
 // Remove a favourite location
-exports.removeFavourite = function (id, res) {
+exports.removeFavourite = function (id, res, callback) {
     citiesModel.findByIdAndRemove(id).exec();
 
     citiesModel.find()
         .then(function(doc){
-            res.json({status: "success"});
+            callback({status: "success"});
         });
-}
+};

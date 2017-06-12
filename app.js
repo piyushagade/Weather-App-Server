@@ -7,9 +7,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
 var session = require('express-session');
+var validator = require('express-validator');
 
 // Controllers
-var index = require('./app/controllers/index');
 var favourites = require('./app/controllers/favourites');
 var weather = require('./app/controllers/weather');
 var location = require('./app/controllers/location');
@@ -27,22 +27,24 @@ app.use(function(req, res, next) {
     return next();
 });
 
-// Routes to use
-app.use('/', index);
-app.use('/favourites', favourites);
-app.use('/weather', weather);
-app.use('/locate', location);
-
 // View engine
 app.set('views', path.join(__dirname, 'app', 'views'));
 app.set('view engine', 'jade');
 
 // Fav icon
-app.use(favicon(path.join(__dirname, 'public', 'images', 'sky.png')));
+app.use(favicon(path.join(__dirname, 'public', 'assets', 'images', 'sky.png')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(validator());
 app.use(cookieParser());
+
+
+// Routes to use
+app.use('/favourites', favourites);
+app.use('/weather', weather);
+app.use('/locate', location);
+
 
 // Statically set an assets folder
 app.use(express.static(path.join(__dirname, 'public')));

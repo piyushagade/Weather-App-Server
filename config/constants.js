@@ -6,7 +6,8 @@ module.exports = {
     },
 
     'geocode' : {
-        'url' : 'https://maps.googleapis.com/maps/api/geocode/json?address='
+        'url_add' : 'https://maps.googleapis.com/maps/api/geocode/json?address=',
+        'url_latlng' : 'https://maps.googleapis.com/maps/api/geocode/json?latlng='
     },
 
     'cache' : {
@@ -15,8 +16,8 @@ module.exports = {
             'ttl' : 10 * 60
         },
         'location' : {
-            // Indefinite
-            'ttl' : 0
+            // 20 minutes
+            'ttl' : 20 * 60
         }
     }
 

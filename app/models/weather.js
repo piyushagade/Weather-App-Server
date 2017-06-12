@@ -4,7 +4,7 @@ var NodeCache = require( "node-cache" );
 var cache = new NodeCache();
 
 //Get current and history of the weather
-exports.getWeather = function getWeather(lat, lng, location_cache, res){
+exports.getWeather = function getWeather(lat, lng, location_cache, callback){
     var current;
     var history = [];
     var currentTime;
@@ -13,7 +13,7 @@ exports.getWeather = function getWeather(lat, lng, location_cache, res){
     try {
         weather = cache.get(key, true);
         // Page hit
-        res.send({"cache": {location: location_cache, weather: true}, "current": weather.current, "history": weather.history});
+        callback({"cache": {location: location_cache, weather: true}, "current": weather.current, "history": weather.history});
     }
     catch(err){
         // Page miss
@@ -33,7 +33,7 @@ exports.getWeather = function getWeather(lat, lng, location_cache, res){
                     count++;
                     if(count == 8) {
                         cache.set(key, {"cache": {location: location_cache, weather: false}, "current": current, "history": history}, config.cache.weather.ttl);
-                        res.send({"cache": {location: location_cache, weather: false}, "current": current, "history": history});
+                        callback({"cache": {location: location_cache, weather: false}, "current": current, "history": history});
                     }
                 });
             }
@@ -48,4 +48,8 @@ function getHistory(client, currentTime, factor, lat, lng, callback) {
     client.methods.jsonMethod(function (data, response) {
         callback(data);
     });
+}
+
+exports.flushCache = function flushCache(){
+    cache.flushAll();
 }
